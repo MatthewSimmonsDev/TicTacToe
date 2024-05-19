@@ -25,7 +25,7 @@ const createPlayers = (function () {
 
 // Game logic
 const gameController = (function () {
-    console.log(gameBoard)
+    displayGameBoard();
     instructPlayerToPlacePiece();
     
 })()
@@ -38,8 +38,6 @@ function instructPlayerToPlacePiece(){
         
         console.log(globalVariables.turn);
         
-        checkTurns();
-        
     }
     else if (globalVariables.turn % 2 !== 1){11
         prompt = window.prompt("O piece select an available location.");
@@ -47,10 +45,23 @@ function instructPlayerToPlacePiece(){
         
         console.log(globalVariables.turn);
         
-        checkTurns();
     }
     
+    displayGameBoard();
+    checkTurns();
 }
+
+function displayGameBoard(){
+    
+    for (let i = 0; i <= 2; i++){
+        for (let j = 0; j <= 2; j++){
+            gameBoard[i][j] = " . "
+        }
+    }
+    
+    console.log(gameBoard)
+}
+
 function checkTurns(){
     if( globalVariables.turn <= 9){
         instructPlayerToPlacePiece();
@@ -65,10 +76,4 @@ function checkForEndgame(){
         
     }
 }
-
-
-
-
-
-
 
