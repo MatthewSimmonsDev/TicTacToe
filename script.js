@@ -1,7 +1,7 @@
 
 // Main Game Logic Section
 
-let globalVariables = {
+const globalVariables = {
     turn : 1,
     
 }
