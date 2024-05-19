@@ -1,5 +1,10 @@
 
 // Main Game Logic Section
+
+let globalVariables = {
+    turn : 1,
+    
+}
 // Create game board
 const gameBoard = (function () {
     const createGameBoard = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]];
@@ -20,17 +25,50 @@ const createPlayers = (function () {
 
 // Game logic
 const gameController = (function () {
-    let turn = 1;
+    console.log(gameBoard)
+    instructPlayerToPlacePiece();
     
 })()
 
-// Run as console game
-const runConsoleGame = (function () {
-
-    console.log(gameBoard)
-})()
-
-
-function incrementTurn(turn){
-    turn++;
+function instructPlayerToPlacePiece(){
+    let prompt;
+    if (globalVariables.turn % 2 === 1){
+        prompt = window.prompt("X piece select an available location.");
+        globalVariables.turn ++;
+        
+        console.log(globalVariables.turn);
+        
+        checkTurns();
+        
+    }
+    else if (globalVariables.turn % 2 !== 1){11
+        prompt = window.prompt("O piece select an available location.");
+        globalVariables.turn++
+        
+        console.log(globalVariables.turn);
+        
+        checkTurns();
+    }
+    
 }
+function checkTurns(){
+    if( globalVariables.turn <= 9){
+        instructPlayerToPlacePiece();
+    } else {
+        checkForEndgame();
+    }
+}
+function checkForEndgame(){
+    if (globalVariables.turn >= 9) {
+        //trigger game over
+        console.log("Game Over");
+        
+    }
+}
+
+
+
+
+
+
+
