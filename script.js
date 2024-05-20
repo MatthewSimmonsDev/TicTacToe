@@ -18,34 +18,29 @@ function squareEventListener(gameSquare) {
     gameSquare.addEventListener("click", function () {
         
         if (globalVariables.turn % 2 !== 0){
-            globalVariables.prompt = "X piece select an available location.";
+            globalVariables.prompt = "O piece select an available location.";
             globalVariables.turn ++;
             globalVariables.piece = "X"
             globalVariables.paused = true;
             
         }
         else if (globalVariables.turn % 2 === 0){
-            globalVariables.prompt = "O piece select an available location.";
+            globalVariables.prompt = "X piece select an available location.";
             globalVariables.turn++
             globalVariables.piece = "O"
             globalVariables.paused = true;
             
         }
         
-        applyPieceToSquare(gameSquare);
+        gameSquare.textContent = globalVariables.piece;
     });
 }
 
-function applyPieceToSquare(gameSquare){
-    gameSquare.textContent = globalVariables.piece;
-    
-}
 
 function createInstructionTextSection(){
     const instructionText = document.createElement('div');
     instructionText.setAttribute("id", "instruction-text");
     gameBoardContainer.after(instructionText)
-
     instructionText.textContent = globalVariables.prompt;
 }
 
@@ -67,8 +62,8 @@ const gameBoard = (function () {
 
 // Game logic
 const domLogicController = (function (){
-    createDomGameBoard();
     createInstructionTextSection();
+    createDomGameBoard();
 })()
 
 function instructPlayerToPlacePiece(){
