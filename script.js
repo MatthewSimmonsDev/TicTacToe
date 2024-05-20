@@ -1,4 +1,24 @@
+// Dom Logic Section
+const gameBoardContainer = document.querySelector("#game-board-container");
+const gameSquare = document.querySelectorAll(".game-square")
+function createDomGameBoard(){
+    const numberOfGameBoardSquares = 9;
+    for (let i = 0; i < numberOfGameBoardSquares; i++){
+        const gameSquare = document.createElement('div');
+        gameBoardContainer.appendChild(gameSquare);
+        gameSquare.setAttribute("id", "game-square-" + (i+1));
+        gameSquare.setAttribute("class", "game-square");
+        onClickPlacePiece();
 
+    }
+}
+
+function onClickPlacePiece(){
+    
+    console.log("test")
+}
+
+createDomGameBoard();
 // Main Game Logic Section
 
 const globalVariables = {
@@ -14,28 +34,16 @@ const gameBoard = (function () {
     return createGameBoard;
 })()
 
-// Create player factory
-const player = (function (player, piece) {
-    return {player, piece};
-})
-
-// Create players one and two
-const createPlayers = (function () {
-    const playerOne = player("Player One", "X");
-    const playerTwo = player("Player Two", "O");
-    return {playerOne, playerTwo};
-})()
-
 // Game logic
-const gameController = (function () {
-    while (globalVariables.turn < 10){
-        instructPlayerToPlacePiece();
-        changePromptToPiece(globalVariables.prompt);
-        console.log(gameBoard)
-        checkForEndgame();
-    }
+// const gameController = (function () {
+//     while (globalVariables.turn < 10){
+//         instructPlayerToPlacePiece();
+//         changePromptToPiece(globalVariables.prompt);
+//         console.log(gameBoard)
+//         checkForEndgame();
+//     }
     
-})()
+// })()
 
 function instructPlayerToPlacePiece(){
     if (globalVariables.turn % 2 === 1){

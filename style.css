@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+--game-square-size : 8rem;
+}
+
+#game-board-container {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    margin-top: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-square {
+    min-height: var(--game-square-size);
+    max-height: var(--game-square-size);
+    min-width: var(--game-square-size);
+    max-width: var(--game-square-size);
+    border: 1px green solid;
+    margin: auto;
+}
