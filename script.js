@@ -4,7 +4,8 @@
 const globalVariables = {
     turn : 1,
     prompt : "",
-    piece : ""
+    piece : "",
+    locationArr : [],
 }
 
 // Create game board
@@ -27,12 +28,12 @@ const createPlayers = (function () {
 
 // Game logic
 const gameController = (function () {
-    console.log(gameBoard)
     while (globalVariables.turn < 10){
         instructPlayerToPlacePiece();
-        
+        changePromptToPiece(globalVariables.prompt);
+        console.log(gameBoard)
+        checkForEndgame();
     }
-    console.log(gameBoard)
     
 })()
 
@@ -52,67 +53,147 @@ function instructPlayerToPlacePiece(){
     
 }
 
-function displayGameBoard(){
-    let arrIncrementer = 1;
-    for (let i = 0; i <= 2; i++){
-        for (let j = 0; j <= 2; j++){
-            
-            if([i][j] != " X " && [i][j] != " O "){
-                
-                if (i == 0){
-                    gameBoard[i][j] = ` ${arrIncrementer} `
-                    arrIncrementer++;
-                }
-                if (i == 1){
-                    gameBoard[i][j] = ` ${arrIncrementer} `
-                    arrIncrementer++;
-                }
-                if (i == 2){
-                    gameBoard[i][j] = ` ${arrIncrementer} `
-                    arrIncrementer++;
-                }
-            }
-            
+function changePromptToPiece(prompt){
+    if(prompt == ""){
+        tryAgain();
+    }
+    if (prompt == "1"){
+        if (globalVariables.locationArr.includes(prompt)){
+            tryAgain();
+        }else {
+            gameBoard[0][0] = ` ${globalVariables.piece} `
         }
     }
-    console.log(gameBoard);
+    if (prompt === "2"){
+        if (globalVariables.locationArr.includes(prompt)){
+            tryAgain();
+        }else {
+            gameBoard[0][1] = ` ${globalVariables.piece} `
+        }
+    }
+    if (prompt === "3"){
+        if (globalVariables.locationArr.includes(prompt)){
+            tryAgain();
+        }else {
+            gameBoard[0][2] = ` ${globalVariables.piece} `
+        }
+    }
+    if (prompt === "4"){
+        if (globalVariables.locationArr.includes(prompt)){
+            tryAgain();
+        }else{
+            gameBoard[1][0] = ` ${globalVariables.piece} `
+        }
+    }
+    if (prompt === "5"){
+        if (globalVariables.locationArr.includes(prompt)){
+            tryAgain();
+        }else{
+            gameBoard[1][1] = ` ${globalVariables.piece} `
+        }
+    }
+    if (prompt === "6"){
+        if (globalVariables.locationArr.includes(prompt)){
+            tryAgain();
+        }else{
+            gameBoard[1][2] = ` ${globalVariables.piece} `
+        }
+    }
+    if (prompt === "7"){
+        if (globalVariables.locationArr.includes(prompt)){
+            tryAgain();
+        }
+        gameBoard[2][0] = ` ${globalVariables.piece} `
+    }
+    if (prompt === "8"){
+        if (globalVariables.locationArr.includes(prompt)){
+            tryAgain();
+        }
+        gameBoard[2][1] = ` ${globalVariables.piece} `
+    }
+    if (prompt === "9"){
+        if (globalVariables.locationArr.includes(prompt)){
+            tryAgain();
+        }
+        gameBoard[2][2] = ` ${globalVariables.piece} `
+    }
     
+    globalVariables.locationArr.push(globalVariables.prompt)
 }
 
-function changePromptToPiece(prompt){
-    if (prompt === "1"){
-        gameBoard[0][0] = ` ${globalVariables.piece} `
-    }else
-    if (prompt === "2"){
-        gameBoard[0][1] = ` ${globalVariables.piece} `
-    }else
-    if (prompt === "3"){
-        gameBoard[0][2] = ` ${globalVariables.piece} `
-    }else
-    if (prompt === "4"){
-        gameBoard[1][0] = ` ${globalVariables.piece} `
-    }else
-    if (prompt === "5"){
-        gameBoard[1][1] = ` ${globalVariables.piece} `
-    }else
-    if (prompt === "6"){
-        gameBoard[1][2] = ` ${globalVariables.piece} `
-    }else
-    if (prompt === "7"){
-        gameBoard[2][0] = ` ${globalVariables.piece} `
-    }else
-    if (prompt === "8"){
-        gameBoard[2][1] = ` ${globalVariables.piece} `
-    }else
-    if (prompt === "9"){
-        gameBoard[2][2] = ` ${globalVariables.piece} `
+// Lower turn back one and tell the user to make correct placement
+function tryAgain(){
+    globalVariables.turn --;
+    console.log("Please choose a valid location");
+}
+
+function checkForCorrectPlacement(){
+    if (locationArr.includes(globalVariables.prompt)){
+        globalVariables.turn --;
+        console.log("Try again");
+    }
+    locationArr.push(globalVariables.prompt)
+}
+
+// Check for three in a row of same piece
+// Runs in the checkForEndgame function
+function checkForTriples(){
+    //check horizontally
+    if (gameBoard[0][0].includes(globalVariables.piece) 
+        && gameBoard[0][1].includes(globalVariables.piece)
+        && gameBoard[0][2].includes(globalVariables.piece)){
+        globalVariables.turn = 10;
+    }
+    if (gameBoard[1][0].includes(globalVariables.piece) 
+        && gameBoard[1][1].includes(globalVariables.piece)
+        && gameBoard[1][2].includes(globalVariables.piece)){
+        console.log(globalVariables.piece + " wins!")
+        globalVariables.turn = 10;
+    }
+    if (gameBoard[2][0].includes(globalVariables.piece) 
+        && gameBoard[2][1].includes(globalVariables.piece)
+        && gameBoard[2][2].includes(globalVariables.piece)){
+        console.log(globalVariables.piece + " wins!")
+        globalVariables.turn = 10;
+    }
+    //check vertically
+    if (gameBoard[0][0].includes(globalVariables.piece) 
+        && gameBoard[1][0].includes(globalVariables.piece)
+        && gameBoard[2][0].includes(globalVariables.piece)){
+        console.log(globalVariables.piece + " wins!")
+        globalVariables.turn = 10;
+    }
+    if (gameBoard[1][0].includes(globalVariables.piece) 
+        && gameBoard[1][1].includes(globalVariables.piece)
+        && gameBoard[2][1].includes(globalVariables.piece)){
+        console.log(globalVariables.piece + " wins!")
+        globalVariables.turn = 10;
+    }
+    if (gameBoard[2][0].includes(globalVariables.piece) 
+        && gameBoard[2][1].includes(globalVariables.piece)
+        && gameBoard[2][2].includes(globalVariables.piece)){
+        console.log(globalVariables.piece + " wins!")
+        globalVariables.turn = 10;
+    }
+    // check diagonally
+    if (gameBoard[0][0].includes(globalVariables.piece) 
+        && gameBoard[1][1].includes(globalVariables.piece)
+        && gameBoard[2][2].includes(globalVariables.piece)){
+        console.log(globalVariables.piece + " wins!")
+        globalVariables.turn = 10;
+    }
+    if (gameBoard[2][0].includes(globalVariables.piece) 
+        && gameBoard[1][1].includes(globalVariables.piece)
+        && gameBoard[2][0].includes(globalVariables.piece)){
+        console.log(globalVariables.piece + " wins!")
+        globalVariables.turn = 10;
     }
 
 }
 
 function checkForEndgame(){
+    checkForTriples();
     if (globalVariables.turn > 9) {
-        //trigger game over
         console.log("Game Over");
         
     }
