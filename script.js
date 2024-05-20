@@ -1,24 +1,54 @@
 // Dom Logic Section
 const gameBoardContainer = document.querySelector("#game-board-container");
-const gameSquare = document.querySelectorAll(".game-square")
+
 function createDomGameBoard(){
     const numberOfGameBoardSquares = 9;
+    // Create the game squares and assign ids and class
     for (let i = 0; i < numberOfGameBoardSquares; i++){
         const gameSquare = document.createElement('div');
         gameBoardContainer.appendChild(gameSquare);
         gameSquare.setAttribute("id", "game-square-" + (i+1));
         gameSquare.setAttribute("class", "game-square");
-        onClickPlacePiece();
-
+        // Event listener for placing pieces
+        squareEventListener(gameSquare);
     }
 }
 
-function onClickPlacePiece(){
-    
-    console.log("test")
+function squareEventListener(gameSquare) {
+    gameSquare.addEventListener("click", function () {
+        
+        if (globalVariables.turn % 2 !== 0){
+            globalVariables.prompt = "X piece select an available location.";
+            globalVariables.turn ++;
+            globalVariables.piece = "X"
+            globalVariables.paused = true;
+            
+        }
+        else if (globalVariables.turn % 2 === 0){
+            globalVariables.prompt = "O piece select an available location.";
+            globalVariables.turn++
+            globalVariables.piece = "O"
+            globalVariables.paused = true;
+            
+        }
+        
+        applyPieceToSquare(gameSquare);
+    });
 }
 
-createDomGameBoard();
+function applyPieceToSquare(gameSquare){
+    gameSquare.textContent = globalVariables.piece;
+    
+}
+
+function createInstructionTextSection(){
+    const instructionText = document.createElement('div');
+    instructionText.setAttribute("id", "instruction-text");
+    gameBoardContainer.after(instructionText)
+
+    instructionText.textContent = globalVariables.prompt;
+}
+
 // Main Game Logic Section
 
 const globalVariables = {
@@ -26,6 +56,7 @@ const globalVariables = {
     prompt : "",
     piece : "",
     locationArr : [],
+    paused : false,
 }
 
 // Create game board
@@ -35,32 +66,30 @@ const gameBoard = (function () {
 })()
 
 // Game logic
-// const gameController = (function () {
-//     while (globalVariables.turn < 10){
-//         instructPlayerToPlacePiece();
-//         changePromptToPiece(globalVariables.prompt);
-//         console.log(gameBoard)
-//         checkForEndgame();
-//     }
-    
-// })()
+const domLogicController = (function (){
+    createDomGameBoard();
+    createInstructionTextSection();
+})()
 
 function instructPlayerToPlacePiece(){
-    if (globalVariables.turn % 2 === 1){
-        globalVariables.prompt = window.prompt("X piece select an available location.");
+    if (globalVariables.turn % 2 !== 0){
+        globalVariables.prompt = "X piece select an available location.";
         globalVariables.turn ++;
         globalVariables.piece = "X"
-        1
-    }
-    else if (globalVariables.turn % 2 !== 1){
-        globalVariables.prompt = window.prompt("O piece select an available location.");
-        globalVariables.turn++
-        globalVariables.piece = "O"
+        globalVariables.paused = true;
         
     }
-    
+    else if (globalVariables.turn % 2 === 0){
+        globalVariables.prompt = "O piece select an available location.";
+        globalVariables.turn++
+        globalVariables.piece = "O"
+        globalVariables.paused = true;
+        
+    }
+    console.log(globalVariables.turn)
 }
 
+// Console Functionality
 function changePromptToPiece(prompt){
     if(prompt == ""){
         tryAgain();

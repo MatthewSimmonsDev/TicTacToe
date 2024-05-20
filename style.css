@@ -23,3 +23,10 @@
     border: 1px green solid;
     margin: auto;
 }
+
+#instruction-text {
+    margin-top: 1rem;
+    font-size: 2rem;
+    text-align: center;
+    vertical-align: middle;
+}
