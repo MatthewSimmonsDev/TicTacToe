@@ -8,7 +8,7 @@ function createDomGameBoard(){
     for (let i = 0; i < numberOfGameBoardSquares; i++){
         const gameSquare = document.createElement('div');
         gameBoardContainer.appendChild(gameSquare);
-        gameSquare.setAttribute("id", "game-square-" + (i+1));
+        gameSquare.setAttribute("id", (i+1));
         gameSquare.setAttribute("class", "game-square");
         // Event listener for placing pieces
         squareEventListener(gameSquare);
@@ -18,32 +18,32 @@ function createDomGameBoard(){
 
 function squareEventListener(gameSquare) {
     gameSquare.addEventListener("click", function () {
+        changePromptToPiece(gameSquare);
         globalVariableConditionals();
-        gameSquare.textContent = globalVariables.piece;
-        instructionTextModifier();
+        checkForTriples();
+        // gameSquare.textContent = globalVariables.piece;
     });
 }
 
 function globalVariableConditionals(){
     if (globalVariables.turn % 2 !== 0){
-        globalVariables.prompt = "O piece select an available location.";
-        globalVariables.turn ++;
-        globalVariables.piece = "X"
-        globalVariables.paused = true;
-        
-    }
-    else if (globalVariables.turn % 2 === 0){
         globalVariables.prompt = "X piece select an available location.";
-        globalVariables.turn++
+        globalVariables.turn ++;
         globalVariables.piece = "O"
         globalVariables.paused = true;
         
     }
-    
+    else if (globalVariables.turn % 2 === 0){
+        globalVariables.prompt = "O piece select an available location.";
+        globalVariables.turn++
+        globalVariables.piece = "X"
+        globalVariables.paused = true;
+        
+    }
     
 }
+
 function instructionTextModifier(){
-    gameBoardContainer.after(instructionText);
     instructionText.textContent = globalVariables.prompt;
 }
 
@@ -68,93 +68,80 @@ const domLogicController = (function (){
     globalVariableConditionals();
     createDomGameBoard();
     instructionTextModifier();
+    
 })()
-
-function instructPlayerToPlacePiece(){
-    if (globalVariables.turn % 2 !== 0){
-        globalVariables.prompt = "X piece select an available location.";
-        globalVariables.turn ++;
-        globalVariables.piece = "X"
-        globalVariables.paused = true;
-        
-    }
-    else if (globalVariables.turn % 2 === 0){
-        globalVariables.prompt = "O piece select an available location.";
-        globalVariables.turn++
-        globalVariables.piece = "O"
-        globalVariables.paused = true;
-        
-    }
-    console.log(globalVariables.turn)
-}
 
 // Console Functionality
 function changePromptToPiece(prompt){
-    if(prompt == ""){
+    if(prompt.textContent){
+        
         tryAgain();
     }
-    if (prompt == "1"){
+    if (prompt.getAttribute("id") == "1"){
         if (globalVariables.locationArr.includes(prompt)){
             tryAgain();
         }else {
             gameBoard[0][0] = ` ${globalVariables.piece} `
         }
     }
-    if (prompt === "2"){
+    if (prompt.getAttribute("id") === "2"){
         if (globalVariables.locationArr.includes(prompt)){
             tryAgain();
         }else {
             gameBoard[0][1] = ` ${globalVariables.piece} `
         }
     }
-    if (prompt === "3"){
+    if (prompt.getAttribute("id") === "3"){
         if (globalVariables.locationArr.includes(prompt)){
             tryAgain();
         }else {
             gameBoard[0][2] = ` ${globalVariables.piece} `
         }
     }
-    if (prompt === "4"){
+    if (prompt.getAttribute("id") === "4"){
         if (globalVariables.locationArr.includes(prompt)){
             tryAgain();
         }else{
             gameBoard[1][0] = ` ${globalVariables.piece} `
         }
     }
-    if (prompt === "5"){
+    if (prompt.getAttribute("id") === "5"){
         if (globalVariables.locationArr.includes(prompt)){
             tryAgain();
         }else{
             gameBoard[1][1] = ` ${globalVariables.piece} `
         }
     }
-    if (prompt === "6"){
+    if (prompt.getAttribute("id") === "6"){
         if (globalVariables.locationArr.includes(prompt)){
             tryAgain();
         }else{
             gameBoard[1][2] = ` ${globalVariables.piece} `
         }
     }
-    if (prompt === "7"){
+    if (prompt.getAttribute("id") === "7"){
         if (globalVariables.locationArr.includes(prompt)){
             tryAgain();
         }
         gameBoard[2][0] = ` ${globalVariables.piece} `
     }
-    if (prompt === "8"){
+    if (prompt.getAttribute("id") === "8"){
         if (globalVariables.locationArr.includes(prompt)){
             tryAgain();
         }
         gameBoard[2][1] = ` ${globalVariables.piece} `
     }
-    if (prompt === "9"){
+    if (prompt.getAttribute("id") === "9"){
         if (globalVariables.locationArr.includes(prompt)){
             tryAgain();
         }
         gameBoard[2][2] = ` ${globalVariables.piece} `
     }
-    
     globalVariables.locationArr.push(globalVariables.prompt)
+    instructionTextModifier();
+    prompt.textContent = globalVariables.piece;
+    
+    
 }
 
 // Lower turn back one and tell the user to make correct placement
@@ -163,13 +150,6 @@ function tryAgain(){
     console.log("Please choose a valid location");
 }
 
-function checkForCorrectPlacement(){
-    if (locationArr.includes(globalVariables.prompt)){
-        globalVariables.turn --;
-        console.log("Try again");
-    }
-    locationArr.push(globalVariables.prompt)
-}
 
 // Check for three in a row of same piece
 // Runs in the checkForEndgame function
@@ -224,14 +204,6 @@ function checkForTriples(){
         console.log(globalVariables.piece + " wins!")
         globalVariables.turn = 10;
     }
-
 }
 
-function checkForEndgame(){
-    checkForTriples();
-    if (globalVariables.turn > 9) {
-        console.log("Game Over");
-        
-    }
-}
 
