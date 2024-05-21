@@ -1,5 +1,6 @@
 // Dom Logic Section
 const gameBoardContainer = document.querySelector("#game-board-container");
+const instructionText = document.querySelector("#instruction-text");
 
 function createDomGameBoard(){
     const numberOfGameBoardSquares = 9;
@@ -12,42 +13,44 @@ function createDomGameBoard(){
         // Event listener for placing pieces
         squareEventListener(gameSquare);
     }
+
 }
 
 function squareEventListener(gameSquare) {
     gameSquare.addEventListener("click", function () {
-        
-        if (globalVariables.turn % 2 !== 0){
-            globalVariables.prompt = "O piece select an available location.";
-            globalVariables.turn ++;
-            globalVariables.piece = "X"
-            globalVariables.paused = true;
-            
-        }
-        else if (globalVariables.turn % 2 === 0){
-            globalVariables.prompt = "X piece select an available location.";
-            globalVariables.turn++
-            globalVariables.piece = "O"
-            globalVariables.paused = true;
-            
-        }
-        
+        globalVariableConditionals();
         gameSquare.textContent = globalVariables.piece;
+        instructionTextModifier();
     });
 }
 
-
-function createInstructionTextSection(){
-    const instructionText = document.createElement('div');
-    instructionText.setAttribute("id", "instruction-text");
-    gameBoardContainer.after(instructionText)
+function globalVariableConditionals(){
+    if (globalVariables.turn % 2 !== 0){
+        globalVariables.prompt = "O piece select an available location.";
+        globalVariables.turn ++;
+        globalVariables.piece = "X"
+        globalVariables.paused = true;
+        
+    }
+    else if (globalVariables.turn % 2 === 0){
+        globalVariables.prompt = "X piece select an available location.";
+        globalVariables.turn++
+        globalVariables.piece = "O"
+        globalVariables.paused = true;
+        
+    }
+    
+    
+}
+function instructionTextModifier(){
+    gameBoardContainer.after(instructionText);
     instructionText.textContent = globalVariables.prompt;
 }
 
 // Main Game Logic Section
 
 const globalVariables = {
-    turn : 1,
+    turn : 0,
     prompt : "",
     piece : "",
     locationArr : [],
@@ -62,8 +65,9 @@ const gameBoard = (function () {
 
 // Game logic
 const domLogicController = (function (){
-    createInstructionTextSection();
+    globalVariableConditionals();
     createDomGameBoard();
+    instructionTextModifier();
 })()
 
 function instructPlayerToPlacePiece(){
