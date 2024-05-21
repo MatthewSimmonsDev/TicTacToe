@@ -20,11 +20,10 @@ function squareEventListener(gameSquare) {
     gameSquare.addEventListener("click", function () {
         console.log(globalVariables.turn)
         if(globalVariables.gameOver === false){
-            if(gameSquare.textContent){
-                tryAgain();
-                if(globalVariables.turn >=10){
+                if(globalVariables.turn >=9){
+                    changePromptToPiece(gameSquare);
                     gameOver();
-                }
+                
             }else{
                 globalVariableConditionals();
                 changePromptToPiece(gameSquare);
@@ -177,9 +176,7 @@ function makeAValidSelection(){
 }
 
 function gameOver(){
-    if (globalVariables.turn >= 10){
-        instructionText.textContent = "No Winner"
-    }
+    instructionText.textContent = "No Winner"
 }
 
 // Check for three in a row of same piece
