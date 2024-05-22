@@ -22,7 +22,7 @@ function squareEventListener(gameSquare) {
         if(globalVariables.gameOver === false){
             if(gameSquare.textContent){
                 tryAgain();
-                if(globalVariables.turn >=10){
+                if(globalVariables.turn >=9){
                     gameOver();
                 }
             }else{
@@ -31,6 +31,9 @@ function squareEventListener(gameSquare) {
                 checkForTriples();
                 instructionTextModifier();
             }
+        }
+        if(globalVariables.turn >=10){
+            gameOver();
         }
     });
 }
@@ -177,9 +180,8 @@ function makeAValidSelection(){
 }
 
 function gameOver(){
-    if (globalVariables.turn >= 10){
         instructionText.textContent = "No Winner"
-    }
+    
 }
 
 // Check for three in a row of same piece
