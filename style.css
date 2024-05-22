@@ -6,7 +6,7 @@
 }
 
 :root {
---game-square-size : 8rem;
+--game-square-size : 7rem;
 }
 
 #game-board-container {
@@ -46,4 +46,16 @@
     min-width: 5rem;
     min-height: 2.5rem;
     font-size: 1.5rem;
+}
+
+@media (width >= 300px){
+    :root {
+        --game-square-size : 6rem;
+        }
+}
+
+@media (width >= 800px){
+    :root {
+        --game-square-size : 15rem;
+        }
 }
