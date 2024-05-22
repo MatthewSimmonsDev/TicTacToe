@@ -1,6 +1,8 @@
 *{
     margin: 0;
     padding: 0;
+    background-color:black;
+    color: rgb(212, 194, 194);
 }
 
 :root {
@@ -22,6 +24,9 @@
     max-width: var(--game-square-size);
     border: 1px green solid;
     margin: auto;
+    font-size: 4rem;
+    text-align: center;
+    justify-content: center;
 }
 
 #instruction-text {
@@ -29,4 +34,14 @@
     font-size: 2rem;
     text-align: center;
     vertical-align: middle;
+}
+
+#reset-button{
+    color: rgb(107, 25, 25);
+    display: block;
+    margin: auto;
+    margin-top: 1rem;
+    min-width: 5rem;
+    min-height: 2.5rem;
+    font-size: 1.5rem;
 }

@@ -1,46 +1,18 @@
-// Dom Logic Section
+// grab the static divs from the dom
 const gameBoardContainer = document.querySelector("#game-board-container");
 const instructionText = document.querySelector("#instruction-text");
+const resetButton = document.querySelector("#reset-button");
 
-function createDomGameBoard(){
-    const numberOfGameBoardSquares = 9;
-    // Create the game squares and assign ids and class
-    for (let i = 0; i < numberOfGameBoardSquares; i++){
-        const gameSquare = document.createElement('div');
-        gameBoardContainer.appendChild(gameSquare);
-        gameSquare.setAttribute("id", (i+1));
-        gameSquare.setAttribute("class", "game-square");
-        // Event listener for placing pieces
-        squareEventListener(gameSquare);
-    }
-
+//'Global' vairables that are only accessable through the object to move them out
+// of 'true' global
+const globalVariables = {
+    turn : 0,
+    prompt : "",
+    piece : "",
+    gameOver: false,
 }
 
-function squareEventListener(gameSquare) {
-    gameSquare.addEventListener("click", function () {
-        
-        if(globalVariables.gameOver === false){
-            if(gameSquare.textContent){
-                tryAgain();
-
-            }else{
-                globalVariableConditionals();
-                changePromptToPiece(gameSquare);
-                checkForTriples();
-                instructionTextModifier();
-
-            }
-        } 
-        if(globalVariables.turn >=10){
-            if(globalVariables.gameOver === true){
-                instructionText.textContent = globalVariables.piece + " wins!"
-            }else{
-                gameOver();
-            }
-        }
-    });
-}
-
+// Sets global variables to based on the turn and incremens the turn
 function globalVariableConditionals(){
     globalVariables.turn ++;
     if (globalVariables.turn % 2 === 0){
@@ -55,112 +27,142 @@ function globalVariableConditionals(){
     }
 }
 
+// Creates the game board
+function createDomGameBoard(){
+    const numberOfGameBoardSquares = 9;
+    // Create the game squares and assign ids and class
+    for (let i = 0; i < numberOfGameBoardSquares; i++){
+        const gameSquare = document.createElement('div');
+        gameBoardContainer.appendChild(gameSquare);
+        gameSquare.setAttribute("id", (i+1));
+        gameSquare.setAttribute("class", "game-square");
+        // Event listener for placing pieces
+        squareEventListener(gameSquare);
+    }
 
-
-// Main Game Logic Section
-
-const globalVariables = {
-    turn : 0,
-    prompt : "",
-    piece : "",
-    locationArr : [],
-    gameOver: false,
 }
 
-// Create game board
+// IIFE to start the game on page load, then passes off to the event listener
+const logicController = (function (){
+    globalVariableConditionals();
+    createDomGameBoard();
+    instructionTextModifier();
+    resetGameStatus();
+    
+})()
+
+// Event listener holds the majority of the functionality. It creates a 'pause wall'
+// held behind clicking a space
+function squareEventListener(gameSquare) {
+    gameSquare.addEventListener("click", function () {
+        if(globalVariables.gameOver === false){
+            if(gameSquare.textContent){
+                tryAgain();
+            }else{
+                globalVariableConditionals();
+                fillGameBoardWithPiece(gameSquare);
+                checkForTriples();
+                instructionTextModifier();
+            }
+        } 
+        if(globalVariables.turn >=10){
+            if(globalVariables.gameOver === true){
+                instructionText.textContent = globalVariables.piece + " wins!"
+            }else{
+                gameOver();
+            }
+        }
+    });
+}
+
+// Create game board for storing 'selected' spaces with correct piece
 const gameBoard = (function () {
     const createGameBoard = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]];
     return createGameBoard;
 })()
 
-// Game logic
-const domLogicController = (function (){
-    globalVariableConditionals();
-    createDomGameBoard();
-    instructionTextModifier();
-    
-})()
 
-// Console Functionality
-function changePromptToPiece(prompt){
+
+// Detects which square is selected and fills gameboard array at proper location
+function fillGameBoardWithPiece(square){
     
-    if (prompt.getAttribute("id") == "1" ){
-        if (prompt.textContent){
+    if (square.getAttribute("id") == "1" ){
+        if (square.textContent){
             tryAgain();
         }else{
             gameBoard[0][0] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
+            square.textContent = globalVariables.piece;
         }
     }
-    if (prompt.getAttribute("id") === "2"){
-        if (prompt.textContent){
+    if (square.getAttribute("id") === "2"){
+        if (square.textContent){
             tryAgain();
         }else {
             gameBoard[0][1] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
+            square.textContent = globalVariables.piece;
 
         }
     }
-    if (prompt.getAttribute("id") === "3"){
-        if (prompt.textContent){
+    if (square.getAttribute("id") === "3"){
+        if (square.textContent){
             tryAgain();
         }else {
             gameBoard[0][2] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
+            square.textContent = globalVariables.piece;
 
         }
     }
-    if (prompt.getAttribute("id") === "4"){
-        if (prompt.textContent){
+    if (square.getAttribute("id") === "4"){
+        if (square.textContent){
             tryAgain();
         }else{
             gameBoard[1][0] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
+            square.textContent = globalVariables.piece;
 
         }
     }
-    if (prompt.getAttribute("id") === "5"){
-        if (prompt.textContent){
+    if (square.getAttribute("id") === "5"){
+        if (square.textContent){
             tryAgain();
         }else{
             gameBoard[1][1] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
+            square.textContent = globalVariables.piece;
 
         }
     }
-    if (prompt.getAttribute("id") === "6"){
-        if (prompt.textContent){
+    if (square.getAttribute("id") === "6"){
+        if (square.textContent){
             tryAgain();
         }else{
             gameBoard[1][2] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
+            square.textContent = globalVariables.piece;
 
         }
     }
-    if (prompt.getAttribute("id") === "7"){
-        if (prompt.textContent){
+    if (square.getAttribute("id") === "7"){
+        if (square.textContent){
             tryAgain();
         }else{
             gameBoard[2][0] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
+            square.textContent = globalVariables.piece;
 
         }
     }
-    if (prompt.getAttribute("id") === "8"){
-        if (prompt.textContent){
+    if (square.getAttribute("id") === "8"){
+        if (square.textContent){
             tryAgain();
         }else{
             gameBoard[2][1] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
+            square.textContent = globalVariables.piece;
 
         }
     }
-    if (prompt.getAttribute("id") === "9"){
-        if (prompt.textContent){
+    if (square.getAttribute("id") === "9"){
+        if (square.textContent){
             tryAgain();
         }else{
             gameBoard[2][2] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
+            square.textContent = globalVariables.piece;
 
         }
     }
@@ -168,27 +170,31 @@ function changePromptToPiece(prompt){
 
 }
 
+// Modifies the text located below the gameboard
 function instructionTextModifier(){
     instructionText.textContent = globalVariables.prompt;
 }
 
-// Lower turn back one and tell the user to make correct placement
+// Lower turn back one turn and tell the user to make correct placement
 function tryAgain(){
     globalVariables.turn +=0;
-    makeAValidSelection();
+    instructionText.textContent = "Please make a valid space selection";
 }
 
-function makeAValidSelection(){
-    instructionText.textContent = "Please make a valid space selection"
-}
-
+// if tie, no winner displayed
 function gameOver(){
-        instructionText.textContent = "No Winner"
+        instructionText.textContent = "No Winner";
     
 }
 
+// reset button reloads the page
+function resetGameStatus(){
+    resetButton.addEventListener("click", function(){
+        window.location.reload();
+    })
+}
+
 // Check for three in a row of same piece
-// Runs in the checkForEndgame function
 function checkForTriples(){
     //check horizontally
     if (gameBoard[0][0].includes(globalVariables.piece) 
@@ -228,8 +234,8 @@ function checkForTriples(){
         globalVariables.turn = 10;
         globalVariables.gameOver = true;
     }
-    if (gameBoard[2][0].includes(globalVariables.piece) 
-        && gameBoard[2][1].includes(globalVariables.piece)
+    if (gameBoard[0][2].includes(globalVariables.piece) 
+        && gameBoard[1][2].includes(globalVariables.piece)
         && gameBoard[2][2].includes(globalVariables.piece)){
         globalVariables.prompt = globalVariables.piece + " wins!";
         globalVariables.turn = 10;
@@ -252,5 +258,3 @@ function checkForTriples(){
     }
 
 }
-
-
