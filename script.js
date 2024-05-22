@@ -18,22 +18,25 @@ function createDomGameBoard(){
 
 function squareEventListener(gameSquare) {
     gameSquare.addEventListener("click", function () {
-        console.log(globalVariables.turn)
+        
         if(globalVariables.gameOver === false){
             if(gameSquare.textContent){
                 tryAgain();
-                if(globalVariables.turn >=9){
-                    gameOver();
-                }
+
             }else{
                 globalVariableConditionals();
                 changePromptToPiece(gameSquare);
                 checkForTriples();
                 instructionTextModifier();
+
             }
-        }
+        } 
         if(globalVariables.turn >=10){
-            gameOver();
+            if(globalVariables.gameOver === true){
+                instructionText.textContent = globalVariables.piece + " wins!"
+            }else{
+                gameOver();
+            }
         }
     });
 }
