@@ -18,25 +18,16 @@ function createDomGameBoard(){
 
 function squareEventListener(gameSquare) {
     gameSquare.addEventListener("click", function () {
-        console.log(globalVariables.turn)
         if(globalVariables.gameOver === false){
-                if(globalVariables.turn >=9){
-                    changePromptToPiece(gameSquare);
-                    gameOver();
-                
+            tryAgain();
             }else{
                 globalVariableConditionals();
-<<<<<<< Updated upstream
-                changePromptToPiece(gameSquare);
-                checkForTriples();
-=======
                 fillGameBoard(gameSquare);
                 checkForWin();
->>>>>>> Stashed changes
                 instructionTextModifier();
             }
         }
-    });
+    );
 }
 
 function globalVariableConditionals(){
@@ -53,10 +44,6 @@ function globalVariableConditionals(){
     }
 }
 
-
-
-// Main Game Logic Section
-
 const globalVariables = {
     turn : 0,
     prompt : "",
@@ -67,105 +54,6 @@ const globalVariables = {
 
 // Create game board
 const gameBoard = (function () {
-<<<<<<< Updated upstream
-    const createGameBoard = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]];
-    return createGameBoard;
-})()
-
-// Game logic
-const domLogicController = (function (){
-    globalVariableConditionals();
-    createDomGameBoard();
-    instructionTextModifier();
-    
-})()
-
-// Console Functionality
-function changePromptToPiece(prompt){
-    
-    if (prompt.getAttribute("id") == "1" ){
-        if (prompt.textContent){
-            tryAgain();
-        }else{
-            gameBoard[0][0] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
-        }
-    }
-    if (prompt.getAttribute("id") === "2"){
-        if (prompt.textContent){
-            tryAgain();
-        }else {
-            gameBoard[0][1] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
-
-        }
-    }
-    if (prompt.getAttribute("id") === "3"){
-        if (prompt.textContent){
-            tryAgain();
-        }else {
-            gameBoard[0][2] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
-
-        }
-    }
-    if (prompt.getAttribute("id") === "4"){
-        if (prompt.textContent){
-            tryAgain();
-        }else{
-            gameBoard[1][0] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
-
-        }
-    }
-    if (prompt.getAttribute("id") === "5"){
-        if (prompt.textContent){
-            tryAgain();
-        }else{
-            gameBoard[1][1] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
-
-        }
-    }
-    if (prompt.getAttribute("id") === "6"){
-        if (prompt.textContent){
-            tryAgain();
-        }else{
-            gameBoard[1][2] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
-
-        }
-    }
-    if (prompt.getAttribute("id") === "7"){
-        if (prompt.textContent){
-            tryAgain();
-        }else{
-            gameBoard[2][0] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
-
-        }
-    }
-    if (prompt.getAttribute("id") === "8"){
-        if (prompt.textContent){
-            tryAgain();
-        }else{
-            gameBoard[2][1] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
-
-        }
-    }
-    if (prompt.getAttribute("id") === "9"){
-        if (prompt.textContent){
-            tryAgain();
-        }else{
-            gameBoard[2][2] = ` ${globalVariables.piece} `
-            prompt.textContent = globalVariables.piece;
-
-        }
-    }
-    
-
-=======
     const createGameBoard = [[1, 2, 3],[4, 5, 6],[7, 8, 9]];
     return createGameBoard;
 })()
@@ -182,7 +70,6 @@ function fillGameBoard(square){
             }
         }
     }
->>>>>>> Stashed changes
 }
 
 function instructionTextModifier(){
@@ -200,80 +87,7 @@ function makeAValidSelection(){
 }
 
 function gameOver(){
-<<<<<<< Updated upstream
     instructionText.textContent = "No Winner"
-}
-
-// Check for three in a row of same piece
-// Runs in the checkForEndgame function
-function checkForTriples(){
-    //check horizontally
-    if (gameBoard[0][0].includes(globalVariables.piece) 
-        && gameBoard[0][1].includes(globalVariables.piece)
-        && gameBoard[0][2].includes(globalVariables.piece)){
-        globalVariables.prompt = globalVariables.piece + " wins!";
-        globalVariables.turn = 10;
-        globalVariables.gameOver = true;
-
-    }
-    if (gameBoard[1][0].includes(globalVariables.piece) 
-        && gameBoard[1][1].includes(globalVariables.piece)
-        && gameBoard[1][2].includes(globalVariables.piece)){
-        globalVariables.prompt = globalVariables.piece + " wins!";
-        globalVariables.turn = 10;
-        globalVariables.gameOver = true;
-    }
-    if (gameBoard[2][0].includes(globalVariables.piece) 
-        && gameBoard[2][1].includes(globalVariables.piece)
-        && gameBoard[2][2].includes(globalVariables.piece)){
-        globalVariables.prompt = globalVariables.piece + " wins!";
-        globalVariables.turn = 10;
-        globalVariables.gameOver = true;
-    }
-    //check vertically
-    if (gameBoard[0][0].includes(globalVariables.piece) 
-        && gameBoard[1][0].includes(globalVariables.piece)
-        && gameBoard[2][0].includes(globalVariables.piece)){
-        globalVariables.prompt = globalVariables.piece + " wins!";
-        globalVariables.turn = 10;
-        globalVariables.gameOver = true;
-    }
-    if (gameBoard[0][1].includes(globalVariables.piece) 
-        && gameBoard[1][1].includes(globalVariables.piece)
-        && gameBoard[2][1].includes(globalVariables.piece)){
-        globalVariables.prompt = globalVariables.piece + " wins!";
-        globalVariables.turn = 10;
-        globalVariables.gameOver = true;
-    }
-    if (gameBoard[2][0].includes(globalVariables.piece) 
-        && gameBoard[2][1].includes(globalVariables.piece)
-        && gameBoard[2][2].includes(globalVariables.piece)){
-        globalVariables.prompt = globalVariables.piece + " wins!";
-        globalVariables.turn = 10;
-        globalVariables.gameOver = true;
-    }
-    // check diagonally
-    if (gameBoard[0][0].includes(globalVariables.piece) 
-        && gameBoard[1][1].includes(globalVariables.piece)
-        && gameBoard[2][2].includes(globalVariables.piece)){
-        globalVariables.prompt = globalVariables.piece + " wins!";
-        globalVariables.turn = 10;
-        globalVariables.gameOver = true;
-    }
-    if (gameBoard[0][2].includes(globalVariables.piece) 
-        && gameBoard[1][1].includes(globalVariables.piece)
-        && gameBoard[2][0].includes(globalVariables.piece)){
-        globalVariables.prompt = globalVariables.piece + " wins!";
-        globalVariables.turn = 10;
-        globalVariables.gameOver = true;
-    }
-
-}
-
-
-=======
-        instructionText.textContent = "No Winner";
-    
 }
 
 // reset button reloads the page
@@ -306,4 +120,4 @@ function activePieceWins(){
     globalVariables.turn = 10;
     globalVariables.gameOver = true;
 }
->>>>>>> Stashed changes
+
