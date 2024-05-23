@@ -60,8 +60,9 @@ function squareEventListener(gameSquare) {
                 tryAgain();
             }else{
                 globalVariableConditionals();
-                fillGameBoardWithPiece(gameSquare);
-                checkForTriples();
+                fillGameBoard(gameSquare);
+                // checkForWin();
+                // checkForTriples();
                 instructionTextModifier();
             }
         } 
@@ -77,97 +78,21 @@ function squareEventListener(gameSquare) {
 
 // Create game board for storing 'selected' spaces with correct piece
 const gameBoard = (function () {
-    const createGameBoard = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]];
+    const createGameBoard = [["", "", ""],["", "", ""],["", "", ""]];
     return createGameBoard;
 })()
 
-
-
-// Detects which square is selected and fills gameboard array at proper location
-function fillGameBoardWithPiece(square){
-    
-    if (square.getAttribute("id") == "1" ){
-        if (square.textContent){
-            tryAgain();
-        }else{
-            gameBoard[0][0] = ` ${globalVariables.piece} `
-            square.textContent = globalVariables.piece;
+// Fills the clicked square with the appropriate game piece.
+function fillGameBoard(square){
+    for (let i = 0; i < gameBoard.length; i ++){
+        for ( let j = 0; j < gameBoard.length; j++){
+            if(!square.textContent){
+                gameBoard[i][j] = `${globalVariables.piece}`;
+                square.textContent = globalVariables.piece;
+            }
         }
     }
-    if (square.getAttribute("id") === "2"){
-        if (square.textContent){
-            tryAgain();
-        }else {
-            gameBoard[0][1] = ` ${globalVariables.piece} `
-            square.textContent = globalVariables.piece;
-
-        }
-    }
-    if (square.getAttribute("id") === "3"){
-        if (square.textContent){
-            tryAgain();
-        }else {
-            gameBoard[0][2] = ` ${globalVariables.piece} `
-            square.textContent = globalVariables.piece;
-
-        }
-    }
-    if (square.getAttribute("id") === "4"){
-        if (square.textContent){
-            tryAgain();
-        }else{
-            gameBoard[1][0] = ` ${globalVariables.piece} `
-            square.textContent = globalVariables.piece;
-
-        }
-    }
-    if (square.getAttribute("id") === "5"){
-        if (square.textContent){
-            tryAgain();
-        }else{
-            gameBoard[1][1] = ` ${globalVariables.piece} `
-            square.textContent = globalVariables.piece;
-
-        }
-    }
-    if (square.getAttribute("id") === "6"){
-        if (square.textContent){
-            tryAgain();
-        }else{
-            gameBoard[1][2] = ` ${globalVariables.piece} `
-            square.textContent = globalVariables.piece;
-
-        }
-    }
-    if (square.getAttribute("id") === "7"){
-        if (square.textContent){
-            tryAgain();
-        }else{
-            gameBoard[2][0] = ` ${globalVariables.piece} `
-            square.textContent = globalVariables.piece;
-
-        }
-    }
-    if (square.getAttribute("id") === "8"){
-        if (square.textContent){
-            tryAgain();
-        }else{
-            gameBoard[2][1] = ` ${globalVariables.piece} `
-            square.textContent = globalVariables.piece;
-
-        }
-    }
-    if (square.getAttribute("id") === "9"){
-        if (square.textContent){
-            tryAgain();
-        }else{
-            gameBoard[2][2] = ` ${globalVariables.piece} `
-            square.textContent = globalVariables.piece;
-
-        }
-    }
-    
-
+    console.log(gameBoard)
 }
 
 // Modifies the text located below the gameboard
@@ -192,6 +117,25 @@ function resetGameStatus(){
     resetButton.addEventListener("click", function(){
         window.location.reload();
     })
+}
+
+function checkForWin(){
+    for (let i = 0; i < gameBoard.length; i ++){
+        if (gameBoard[i][0] === globalVariables.piece){
+            // console.log(gameBoard[i][0])
+            console.log(gameBoard[i][1])
+            if (gameBoard[i][1] === globalVariables.piece){
+                console.log("test2")
+                activePieceWins();
+            }
+        }
+    }
+}
+
+function activePieceWins(){
+    globalVariables.prompt = globalVariables.piece + " wins!";
+    globalVariables.turn = 10;
+    globalVariables.gameOver = true;
 }
 
 // Check for three in a row of same piece
