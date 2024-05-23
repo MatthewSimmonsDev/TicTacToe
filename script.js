@@ -26,8 +26,13 @@ function squareEventListener(gameSquare) {
                 
             }else{
                 globalVariableConditionals();
+<<<<<<< Updated upstream
                 changePromptToPiece(gameSquare);
                 checkForTriples();
+=======
+                fillGameBoard(gameSquare);
+                checkForWin();
+>>>>>>> Stashed changes
                 instructionTextModifier();
             }
         }
@@ -62,6 +67,7 @@ const globalVariables = {
 
 // Create game board
 const gameBoard = (function () {
+<<<<<<< Updated upstream
     const createGameBoard = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]];
     return createGameBoard;
 })()
@@ -159,6 +165,24 @@ function changePromptToPiece(prompt){
     }
     
 
+=======
+    const createGameBoard = [[1, 2, 3],[4, 5, 6],[7, 8, 9]];
+    return createGameBoard;
+})()
+
+// Checks square if it matches with gameBoard array then assigns proper piece to square
+function fillGameBoard(square){
+    const squareString = square.getAttribute("id");
+    const squareNumber = Number(squareString);
+    for (let i = 0; i < gameBoard.length; i++){
+        for (let j = 0; j < gameBoard.length; j++){
+            if(squareNumber == gameBoard[i][j]){
+                gameBoard[i][j] = globalVariables.piece;
+                square.textContent = globalVariables.piece;
+            }
+        }
+    }
+>>>>>>> Stashed changes
 }
 
 function instructionTextModifier(){
@@ -176,6 +200,7 @@ function makeAValidSelection(){
 }
 
 function gameOver(){
+<<<<<<< Updated upstream
     instructionText.textContent = "No Winner"
 }
 
@@ -246,3 +271,39 @@ function checkForTriples(){
 }
 
 
+=======
+        instructionText.textContent = "No Winner";
+    
+}
+
+// reset button reloads the page
+function resetGameStatus(){
+    resetButton.addEventListener("click", function(){
+        window.location.reload();
+    })
+}
+
+// Checks for different three in a row combinations
+function checkForWin(){
+    for (let i = 0; i < gameBoard.length; i ++){
+        if (gameBoard[i][0] === gameBoard[i][1] && gameBoard[i][1] === gameBoard[i][2]){
+            activePieceWins();
+        }
+        if (gameBoard[0][i] === gameBoard[1][i] && gameBoard[1][i] === gameBoard[2][i]){
+            activePieceWins();
+        }
+        if (gameBoard[0][0] === gameBoard[1][1] && gameBoard[1][1] === gameBoard[2][2]){
+            activePieceWins();
+        }
+        if (gameBoard[0][2] === gameBoard[1][1] && gameBoard[1][1] === gameBoard[2][0]){
+            activePieceWins();
+        }
+    }
+}
+
+function activePieceWins(){
+    globalVariables.prompt = globalVariables.piece + " wins!";
+    globalVariables.turn = 10;
+    globalVariables.gameOver = true;
+}
+>>>>>>> Stashed changes
