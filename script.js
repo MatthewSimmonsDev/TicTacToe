@@ -3,14 +3,24 @@ const gameBoardContainer = document.querySelector("#game-board-container");
 const instructionText = document.querySelector("#instruction-text");
 const resetButton = document.querySelector("#reset-button");
 
+// global variables accessable only from object and modified in various places
 const globalVariables = {
     turn : 0,
     prompt : "",
     piece : "",
-    locationArr : [],
     gameOver: false,
 }
 
+// IIFE to start the game and setup the event listeners
+const logicController = (function (){
+    globalVariableConditionals();
+    createDomGameBoard();
+    instructionTextModifier();
+    resetGameStatus();
+    
+})()
+
+//Creates the game board and activates the event listener for clicking squares
 function createDomGameBoard(){
     const numberOfGameBoardSquares = 9;
     // Create the game squares and assign ids and class
@@ -25,50 +35,42 @@ function createDomGameBoard(){
 
 }
 
+// checks and runs all the game functions
 function squareEventListener(gameSquare) {
     gameSquare.addEventListener("click", function () {
+        console.log(globalVariables.turn)
         if(globalVariables.gameOver === false){
+            // if player clicks a square that already has been selected, try again
             if(gameSquare.textContent){
                 tryAgain();
-            }else{
+            }
+            // move up turn and modify necessary variables then check for win and modify text
+            else{
                 globalVariableConditionals();
                 fillGameBoard(gameSquare);
                 checkForWin();
                 instructionTextModifier();
             }
-            
         }
-        // if (globalVariables.gameOver === true){
-        //     gameOver();
-
-        // }
-        
-    }
-    );
+        // if no player wins when the last piece is played, game over
+        if(globalVariables.turn >= 10){
+            gameOver();
+        }
+    });
 }
 
+// controls variables for X or O pieces and proper text display
 function globalVariableConditionals(){
     globalVariables.turn ++;
     if (globalVariables.turn % 2 === 0){
         globalVariables.prompt = "O piece select an available location.";
         globalVariables.piece = "X"
-        
     }
     else if (globalVariables.turn % 2 !== 0){
         globalVariables.prompt = "X piece select an available location.";
         globalVariables.piece = "O"
-        
     }
 }
-
-const logicController = (function (){
-    globalVariableConditionals();
-    createDomGameBoard();
-    instructionTextModifier();
-    resetGameStatus();
-    
-})()
-
 
 // Create game board
 const gameBoard = (function () {
@@ -94,7 +96,7 @@ function instructionTextModifier(){
     instructionText.textContent = globalVariables.prompt;
 }
 
-// Lower turn back one and tell the user to make correct placement
+// Dont change turn and tell the user to make correct placement
 function tryAgain(){
     globalVariables.turn +=0;
     makeAValidSelection();
@@ -104,6 +106,7 @@ function makeAValidSelection(){
     instructionText.textContent = "Please make a valid space selection"
 }
 
+// Game over text
 function gameOver(){
     instructionText.textContent = "No Winner"
 }
@@ -133,9 +136,8 @@ function checkForWin(){
     }
 }
 
+// Declare winner and set gameover to true so nothing else can be done.
 function activePieceWins(){
     globalVariables.prompt = globalVariables.piece + " wins!";
-    globalVariables.turn = 10;
     globalVariables.gameOver = true;
 }
-
