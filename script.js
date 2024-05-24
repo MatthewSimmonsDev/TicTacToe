@@ -1,6 +1,15 @@
 // Dom Logic Section
 const gameBoardContainer = document.querySelector("#game-board-container");
 const instructionText = document.querySelector("#instruction-text");
+const resetButton = document.querySelector("#reset-button");
+
+const globalVariables = {
+    turn : 0,
+    prompt : "",
+    piece : "",
+    locationArr : [],
+    gameOver: false,
+}
 
 function createDomGameBoard(){
     const numberOfGameBoardSquares = 9;
@@ -19,14 +28,22 @@ function createDomGameBoard(){
 function squareEventListener(gameSquare) {
     gameSquare.addEventListener("click", function () {
         if(globalVariables.gameOver === false){
-            tryAgain();
+            if(gameSquare.textContent){
+                tryAgain();
             }else{
                 globalVariableConditionals();
                 fillGameBoard(gameSquare);
                 checkForWin();
                 instructionTextModifier();
             }
+            
         }
+        // if (globalVariables.gameOver === true){
+        //     gameOver();
+
+        // }
+        
+    }
     );
 }
 
@@ -44,13 +61,14 @@ function globalVariableConditionals(){
     }
 }
 
-const globalVariables = {
-    turn : 0,
-    prompt : "",
-    piece : "",
-    locationArr : [],
-    gameOver: false,
-}
+const logicController = (function (){
+    globalVariableConditionals();
+    createDomGameBoard();
+    instructionTextModifier();
+    resetGameStatus();
+    
+})()
+
 
 // Create game board
 const gameBoard = (function () {
